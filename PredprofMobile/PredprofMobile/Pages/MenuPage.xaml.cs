@@ -24,7 +24,7 @@ namespace PredprofMobile
 
         private void tableBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new TablePage());
+            Navigation.PushAsync(new TablePage(0, DateTime.Now, 0));
         }
 
         private void registrationBtn_Clicked(object sender, EventArgs e)

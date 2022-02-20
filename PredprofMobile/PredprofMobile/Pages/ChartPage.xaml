@@ -14,7 +14,7 @@
                 </StackLayout>
                 <StackLayout HorizontalOptions="EndAndExpand" WidthRequest="150">
                     <Label Text="Период:" FontSize="Large" FontAttributes="Bold"/>
-                    <Picker x:Name="periodPicker"/>
+                    <Picker x:Name="periodPicker" SelectedIndexChanged="periodPicker_SelectedIndexChanged"/>
                 </StackLayout>
             </StackLayout>
             <charts:ChartView x:Name="chart" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">

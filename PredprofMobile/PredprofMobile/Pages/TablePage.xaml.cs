@@ -15,7 +15,8 @@ namespace PredprofMobile
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TablePage : ContentPage
     {
-        public TablePage()
+        bool isSetuped = false;
+        public TablePage(int id, DateTime date, int period)
         {
             InitializeComponent();
             try
@@ -24,8 +25,12 @@ namespace PredprofMobile
                 HttpResponseMessage result = client.GetAsync("http://black-bread-board.herokuapp.com/api/akeses").Result;
                 string json = result.Content.ReadAsStringAsync().Result;
                 List<Akes> akesList = JsonConvert.DeserializeObject<AkesList>(json).akeses;
-                akesPicker.ItemsSource = akesList;
-                akesPicker.SelectedIndex = 0;
+                akesPicker.ItemsSource = akesList.Where(a => AutorisationPage.akeses.Contains(a.id)).ToList();
+                akesPicker.SelectedIndex = id == 0 ? 0 : akesList.IndexOf(akesList.FirstOrDefault(a => a.id == id));
+                periodPicker.ItemsSource = new string[] { "День", "Неделя" };
+                periodPicker.SelectedIndex = period;
+                datePicker.Date = date;
+                isSetuped = true;
             }
             catch (Exception e)
             {
@@ -62,15 +67,120 @@ namespace PredprofMobile
             {
                 Akes akes = akesPicker.SelectedItem as Akes;
                 if (akes == null) return;
+                if (isSetuped)
+                {
+                    Navigation.PushAsync(new TablePage(akes.id, datePicker.Date, periodPicker.SelectedIndex));
+                    Navigation.RemovePage(this);
+                    return;
+                }
                 HttpClient client = new HttpClient();
                 HttpResponseMessage result = client.GetAsync
                     ($"http://black-bread-board.herokuapp.com/api/{akes.id}/akes_outputs")
                     .Result;
                 string json = result.Content.ReadAsStringAsync().Result;
-                List<AkesOutput> akesList = JsonConvert.DeserializeObject<AkesOutputList>(json).akes_Outputs;
+                List<AkesOutput> akesList = JsonConvert.DeserializeObject<AkesOutputList>(json).
+                    akes_Outputs.Where(a => AutorisationPage.akeses.Contains(a.akes_id)).OrderBy(a => a.datetime_end).ToList();
+                List<AkesOutput> toRemove = new List<AkesOutput>();
                 foreach (AkesOutput output in akesList)
+                {
+                    if (output.datetime_start < datePicker.Date ||
+                        output.datetime_end > datePicker.Date.AddDays(periodPicker.SelectedIndex == 0 ? 1 : 7))
+                    {
+                        toRemove.Add(output);
+                    }
                     if (Calculatable(output))
-                        output.effectiveness = CalculateEffectiveness(output);
+                        output.effectiveness = CalculateEffectiveness(output) / 100;
+                }
+                foreach (AkesOutput output in toRemove)
+                {
+                    akesList.Remove(output);
+                }
+                dataGrid.ItemsSource = akesList;
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Ошибка", "Ошибка при получении данных", "ОК");
+                Navigation.PopAsync();
+            }
+        }
+
+        private void datePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            try
+            {
+                Akes akes = akesPicker.SelectedItem as Akes;
+                if (akes == null) return;
+                if (isSetuped)
+                {
+                    Navigation.PushAsync(new TablePage(akes.id, datePicker.Date, periodPicker.SelectedIndex));
+                    Navigation.RemovePage(this);
+                    return;
+                }
+                HttpClient client = new HttpClient();
+                HttpResponseMessage result = client.GetAsync
+                    ($"http://black-bread-board.herokuapp.com/api/{akes.id}/akes_outputs")
+                    .Result;
+                string json = result.Content.ReadAsStringAsync().Result;
+                List<AkesOutput> akesList = JsonConvert.DeserializeObject<AkesOutputList>(json).
+                    akes_Outputs.Where(a => AutorisationPage.akeses.Contains(a.akes_id)).OrderBy(a => a.datetime_end).ToList();
+                List<AkesOutput> toRemove = new List<AkesOutput>();
+                foreach (AkesOutput output in akesList)
+                {
+                    if (output.datetime_start < datePicker.Date ||
+                        output.datetime_end > datePicker.Date.AddDays(periodPicker.SelectedIndex == 0 ? 1 : 7))
+                    {
+                        toRemove.Add(output);
+                    }
+                    if (Calculatable(output))
+                        output.effectiveness = CalculateEffectiveness(output) / 100;
+                }
+                foreach (AkesOutput output in toRemove)
+                {
+                    akesList.Remove(output);
+                }
+                dataGrid.ItemsSource = akesList;
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Ошибка", "Ошибка при получении данных", "ОК");
+                Navigation.PopAsync();
+            }
+        }
+
+        private void periodPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Akes akes = akesPicker.SelectedItem as Akes;
+                if (akes == null) return;
+                if (isSetuped)
+                {
+                    Navigation.PushAsync(new TablePage(akes.id, datePicker.Date, periodPicker.SelectedIndex));
+                    Navigation.RemovePage(this);
+                    return;
+                }
+                HttpClient client = new HttpClient();
+                HttpResponseMessage result = client.GetAsync
+                    ($"http://black-bread-board.herokuapp.com/api/{akes.id}/akes_outputs")
+                    .Result;
+                string json = result.Content.ReadAsStringAsync().Result;
+                List<AkesOutput> akesList = JsonConvert.DeserializeObject<AkesOutputList>(json).
+                    akes_Outputs.Where(a => AutorisationPage.akeses.Contains(a.akes_id)).OrderBy(a => a.datetime_end).ToList();
+                List<AkesOutput> toRemove = new List<AkesOutput>();
+                foreach (AkesOutput output in akesList)
+                {
+                    if (output.datetime_start < datePicker.Date ||
+                        output.datetime_end > datePicker.Date.AddDays(periodPicker.SelectedIndex == 0 ? 1 : 7))
+                    {
+                        toRemove.Add(output);
+                    }
+                    if (Calculatable(output))
+                        output.effectiveness = CalculateEffectiveness(output) / 100;
+                }
+                foreach (AkesOutput output in toRemove)
+                {
+                    akesList.Remove(output);
+                }
                 dataGrid.ItemsSource = akesList;
             }
             catch (Exception ex)

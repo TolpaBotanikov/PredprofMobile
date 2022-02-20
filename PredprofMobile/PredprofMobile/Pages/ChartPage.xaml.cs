@@ -26,7 +26,7 @@ namespace PredprofMobile
                 HttpResponseMessage result = client.GetAsync("http://black-bread-board.herokuapp.com/api/akeses").Result;
                 string json = result.Content.ReadAsStringAsync().Result;
                 List<Akes> akesList = JsonConvert.DeserializeObject<AkesList>(json).akeses;
-                akesPicker.ItemsSource = akesList;
+                akesPicker.ItemsSource = akesList.Where(a => AutorisationPage.akeses.Contains(a.id)).ToList();
                 akesPicker.SelectedIndex = 0;
 
                 #region Добавление АКЭС
@@ -112,7 +112,8 @@ namespace PredprofMobile
                     ($"http://black-bread-board.herokuapp.com/api/{akes.id}/akes_outputs")
                     .Result;
                 string json = result.Content.ReadAsStringAsync().Result;
-                List<AkesOutput> akesList = JsonConvert.DeserializeObject<AkesOutputList>(json).akes_Outputs;
+                List<AkesOutput> akesList = JsonConvert.DeserializeObject<AkesOutputList>(json).
+                    akes_Outputs.Where(a => AutorisationPage.akeses.Contains(a.akes_id)).OrderBy(a => a.datetime_end).ToList();
                 List<DateTime> dates = new List<DateTime>();
                 List<double> values = new List<double>();
                 foreach (AkesOutput output in akesList)
@@ -165,6 +166,19 @@ namespace PredprofMobile
         }
 
         private void akesPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Akes akes = akesPicker.SelectedItem as Akes;
+                DisplayChart(akes.id);
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Ошибка", "Ошибка:\n" + ex, "ОК");
+            }
+        }
+
+        private void periodPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {

@@ -7,22 +7,32 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="АКЭС:" FontSize="Large" FontAttributes="Bold"/>
-            <Picker x:Name="akesPicker" HorizontalOptions="FillAndExpand" SelectedIndexChanged="akesPicker_SelectedIndexChanged"/>
+            <Picker x:Name="akesPicker" HorizontalOptions="FillAndExpand" SelectedIndexChanged="akesPicker_SelectedIndexChanged" ItemDisplayBinding="{Binding id}"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" WidthRequest="150">
+                <StackLayout>
+                    <Label Text="Дата:" FontSize="Large" FontAttributes="Bold"/>
+                    <DatePicker x:Name="datePicker" DateSelected="datePicker_DateSelected"/>
+                </StackLayout>
+                <StackLayout HorizontalOptions="EndAndExpand" WidthRequest="150">
+                    <Label Text="Период:" FontSize="Large" FontAttributes="Bold"/>
+                    <Picker x:Name="periodPicker" SelectedIndexChanged="periodPicker_SelectedIndexChanged"/>
+                </StackLayout>
+            </StackLayout>
             <ScrollView Orientation="Horizontal">
                 <dg:DataGrid x:Name="dataGrid" HorizontalOptions="FillAndExpand">
                     <dg:DataGrid.Columns>
-                        <dg:DataGridColumn Title="Время начала теста" PropertyName="datetime_start" Width="2*" StringFormat="dd.MM.yy HH:mm:ss"/>
-                        <dg:DataGridColumn Title="Время окончания теста" PropertyName="datetime_end" Width="2*" StringFormat="dd.MM.yy HH:mm:ss"/>
-                        <dg:DataGridColumn Title="Косинус A" PropertyName="cos_A" Width="1*" StringFormat="F3"/>
-                        <dg:DataGridColumn Title="Косинус B" PropertyName="cos_B" Width="1*" StringFormat="F3"/>
-                        <dg:DataGridColumn Title="Косинус C" PropertyName="cos_C" Width="1*" StringFormat="F3"/>
-                        <dg:DataGridColumn Title="Активная мощность A" PropertyName="active_power_A" Width="1*" StringFormat="D"/>
-                        <dg:DataGridColumn Title="Активная мощность B" PropertyName="active_power_B" Width="1*" StringFormat="D"/>
-                        <dg:DataGridColumn Title="Активная мощность C" PropertyName="active_power_C" Width="1*" StringFormat="D"/>
-                        <dg:DataGridColumn Title="Реактивная мощность A" PropertyName="jet_power_A" Width="1*" StringFormat="D"/>
-                        <dg:DataGridColumn Title="Реактивная мощность B" PropertyName="jet_power_B" Width="1*" StringFormat="D"/>
-                        <dg:DataGridColumn Title="Реактивная мощность C" PropertyName="jet_power_C" Width="1*" StringFormat="D"/>
-                        <dg:DataGridColumn Title="Эффективность" PropertyName="Date" Width="1*" StringFormat="P2"/>
+                        <dg:DataGridColumn Title="Время начала теста" PropertyName="datetime_start" Width="*" StringFormat="{}{0:dd.MM.yy HH:mm:ss}"/>
+                        <dg:DataGridColumn Title="Время окончания теста" PropertyName="datetime_end" Width="*" StringFormat="{}{0:dd.MM.yy HH:mm:ss}"/>
+                        <dg:DataGridColumn Title="Косинус A" PropertyName="cos_A" Width="1*" StringFormat="{}{0:F3}"/>
+                        <dg:DataGridColumn Title="Косинус B" PropertyName="cos_B" Width="1*" StringFormat="{}{0:F3}"/>
+                        <dg:DataGridColumn Title="Косинус C" PropertyName="cos_C" Width="1*" StringFormat="{}{0:F3}"/>
+                        <dg:DataGridColumn Title="Активная мощность A" PropertyName="active_power_A" Width="1*" StringFormat="{}{0:D}"/>
+                        <dg:DataGridColumn Title="Активная мощность B" PropertyName="active_power_B" Width="1*" StringFormat="{}{0:D}"/>
+                        <dg:DataGridColumn Title="Активная мощность C" PropertyName="active_power_C" Width="1*" StringFormat="{}{0:D}"/>
+                        <dg:DataGridColumn Title="Реактивная мощность A" PropertyName="jet_power_A" Width="1*" StringFormat="{}{0:D}"/>
+                        <dg:DataGridColumn Title="Реактивная мощность B" PropertyName="jet_power_B" Width="1*" StringFormat="{}{0:D}"/>
+                        <dg:DataGridColumn Title="Реактивная мощность C" PropertyName="jet_power_C" Width="1*" StringFormat="{}{0:D}"/>
+                        <dg:DataGridColumn Title="Эффективность" PropertyName="effectiveness" Width="1*" StringFormat="{}{0:P2}"/>
                     </dg:DataGrid.Columns>
                     <dg:DataGrid.RowsBackgroundColorPalette>
                         <dg:PaletteCollection>

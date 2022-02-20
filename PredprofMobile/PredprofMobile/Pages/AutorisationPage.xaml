@@ -2,12 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-             x:Class="PredprofMobile.AutorisationPage">
+             x:Class="PredprofMobile.AutorisationPage" Appearing="ContentPage_Appearing">
     <StackLayout>
         <Label Text="Авторизация" FontSize="Title" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" Margin="50"/>
         <StackLayout VerticalOptions="CenterAndExpand">
-            <Entry Placeholder="Логин"/>
-            <Entry Placeholder="Пароль" IsPassword="True"/>
+            <Entry x:Name="loginEntry" Placeholder="Логин"/>
+            <Entry x:Name="passwordEntry" Placeholder="Пароль" IsPassword="True"/>
             <Button x:Name="loginBtn" Text="Войти" Clicked="loginBtn_Clicked"/>
         </StackLayout>
     </StackLayout>
