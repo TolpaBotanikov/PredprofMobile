@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PredprofMobile.AcessPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Пользователь:" FontSize="Large" FontAttributes="Bold"/>
+            <Picker x:Name="userPicker" HorizontalOptions="FillAndExpand"/>
+            <Label Text="Номер АКЭС:" FontSize="Large" FontAttributes="Bold"/>
+            <Entry x:Name="numberEntry"/>
+            <Button Text="Выдать доступ"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

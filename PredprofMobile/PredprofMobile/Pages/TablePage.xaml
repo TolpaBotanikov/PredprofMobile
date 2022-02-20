@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sf="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
+             xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
+             x:Class="PredprofMobile.TablePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="АКЭС:" FontSize="Large" FontAttributes="Bold"/>
+            <Picker x:Name="akesPicker" HorizontalOptions="FillAndExpand" SelectedIndexChanged="akesPicker_SelectedIndexChanged"/>
+            <ScrollView Orientation="Horizontal">
+                <dg:DataGrid x:Name="dataGrid" HorizontalOptions="FillAndExpand">
+                    <dg:DataGrid.Columns>
+                        <dg:DataGridColumn Title="Время начала теста" PropertyName="datetime_start" Width="2*" StringFormat="dd.MM.yy HH:mm:ss"/>
+                        <dg:DataGridColumn Title="Время окончания теста" PropertyName="datetime_end" Width="2*" StringFormat="dd.MM.yy HH:mm:ss"/>
+                        <dg:DataGridColumn Title="Косинус A" PropertyName="cos_A" Width="1*" StringFormat="F3"/>
+                        <dg:DataGridColumn Title="Косинус B" PropertyName="cos_B" Width="1*" StringFormat="F3"/>
+                        <dg:DataGridColumn Title="Косинус C" PropertyName="cos_C" Width="1*" StringFormat="F3"/>
+                        <dg:DataGridColumn Title="Активная мощность A" PropertyName="active_power_A" Width="1*" StringFormat="D"/>
+                        <dg:DataGridColumn Title="Активная мощность B" PropertyName="active_power_B" Width="1*" StringFormat="D"/>
+                        <dg:DataGridColumn Title="Активная мощность C" PropertyName="active_power_C" Width="1*" StringFormat="D"/>
+                        <dg:DataGridColumn Title="Реактивная мощность A" PropertyName="jet_power_A" Width="1*" StringFormat="D"/>
+                        <dg:DataGridColumn Title="Реактивная мощность B" PropertyName="jet_power_B" Width="1*" StringFormat="D"/>
+                        <dg:DataGridColumn Title="Реактивная мощность C" PropertyName="jet_power_C" Width="1*" StringFormat="D"/>
+                        <dg:DataGridColumn Title="Эффективность" PropertyName="Date" Width="1*" StringFormat="P2"/>
+                    </dg:DataGrid.Columns>
+                    <dg:DataGrid.RowsBackgroundColorPalette>
+                        <dg:PaletteCollection>
+                            <Color>#F2F2F2</Color>
+                            <Color>#FFFFFF</Color>
+                        </dg:PaletteCollection>
+                    </dg:DataGrid.RowsBackgroundColorPalette>
+                </dg:DataGrid>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

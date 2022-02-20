@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PredprofMobile.MenuPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <Button x:Name="chartBtn" Text="Графики эффективности комплексов" Clicked="chartBtn_Clicked"/>
+                <Button x:Name="tableBtn" Text="Таблицы данных" Clicked="tableBtn_Clicked"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
